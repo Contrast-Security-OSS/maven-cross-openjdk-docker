@@ -9,5 +9,5 @@ RUN set -ex && \
       openjdk-8-jdk \
       ca-certificates-java -y
 
-ENV JAVA_HOME_1.8=/usr/lib/jvm/java-8-openjdk-amd64
-ENV JAVA_HOME_1.7=/usr/lib/jvm/java-7-openjdk-amd64
+ENV JAVA_HOME_8=/usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME_7=/usr/lib/jvm/java-7-openjdk-amd64
