@@ -1,19 +1,17 @@
-FROM maven:3.5-jdk-7
-# Grab JDK from jessie-backports since default sources do not include openJDK-8
+FROM maven:3.6.1
 RUN set -ex && \
-    echo 'deb http://deb.debian.org/debian jessie-backports main' \
-      > /etc/apt/sources.list.d/jessie-backports.list && \
-    apt-get update -y && \
-    apt-get install -t \
-      jessie-backports \
-      openjdk-8-jdk \
-      ca-certificates-java -y && \
-    # Remove old symlink to set openJDK-8 as default
-    update-alternatives --remove java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xB1998361219BD9C9 && \
+    echo "deb http://repos.azulsystems.com/debian stable main" > /etc/apt/sources.list.d/zulu.list && \
+    apt-get update && apt-get install -y \
+    zulu-6 \
+    zulu-7 \
+    zulu-8 \
+    zulu-11 \
+    ca-certificates-java && \
+    update-alternatives --set java /usr/lib/jvm/zulu-8-amd64/jre/bin/java
 
-# Manually set Java install environment variables
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
-    JAVA_VERSION=8u171 \
-    # Variables holding locations to different installed JDKs
-    JAVA_HOME_8=/usr/lib/jvm/java-8-openjdk-amd64 \
-    JAVA_HOME_7=/usr/lib/jvm/java-7-openjdk-amd64 \
+ENV JAVA_HOME_6=/usr/lib/jvm/zulu-6-amd64 \
+    JAVA_HOME_7=/usr/lib/jvm/zulu-7-amd64 \
+    JAVA_HOME_8=/usr/lib/jvm/zulu-8-amd64 \
+    JAVA_HOME_11=/usr/lib/jvm/zulu-11-amd64
+ENV JAVA_HOME=$JAVA_HOME_8
